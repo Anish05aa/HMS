@@ -10,7 +10,7 @@ const AdminContextProvider = (props) => {
     const [appointments, setAppointments] = useState([]);
     const [dashData ,setdashData]=useState(false);
 
-    const backendUrl = import.meta.env.VITE_BACKEND_URL;
+    const backendUrl = 'https://hms-backend-p6a4.onrender.com';
 
     const getAllDoctors = async () => {
         try {
