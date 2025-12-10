@@ -15,7 +15,7 @@ connectCloudinary();
 
 // middleware
 const corsOptions = {
-  origin: ['http://localhost:5000', 'http://localhost:5173'], // ✅ allow both admin and doctor frontend
+  origin: ['https://hms-bafy.onrender.com/', 'https://hms-frontend-yaju.onrender.com'], // ✅ allow both admin and doctor frontend
   credentials: true,
   allowedHeaders: ['Content-Type', 'Authorization'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']
