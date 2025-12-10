@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; // THIS IMPORT IS CRUCIAL
 import Navbar from './components/Navbar';
-import Sidebar from './components/sidebar';
+import Sidebar from './components/Sidebar';
 import { AdminContext } from './context/AdminContext';
 import { DoctorContext } from './context/DoctorContext';
 import AddDoctor from './pages/Admin/AddDoctor';
