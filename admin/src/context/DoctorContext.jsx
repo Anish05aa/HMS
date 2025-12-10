@@ -8,7 +8,7 @@ export const DoctorContext = createContext();
 
 const DoctorContextProvider = (props) => {
 
-    const backendUrl = 'https://hms-backend-p6a4.onrender.com';
+    const backendUrl = 'https://hms-backend-fy33.onrender.com';
 
     const [dtoken, setDToken] = useState(localStorage.getItem('adminToken') || '');
     const [appointments, setAppointments] = useState([]);
