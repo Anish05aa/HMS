@@ -10,7 +10,7 @@ const AdminContextProvider = (props) => {
     const [appointments, setAppointments] = useState([]);
     const [dashData ,setdashData]=useState(false);
 
-    const backendUrl = 'https://hms-backend-fy33.onrender.com';
+    const backendUrl = 'https://hms-backend-fy33.onrender.com'
 
     const getAllDoctors = async () => {
         try {
