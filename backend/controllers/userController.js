@@ -79,6 +79,8 @@ const loginUser = async (req, res) => {
         if (isPasswordValid) {
             const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET);
             res.json({ success: true, message: "User logged in successfully", user, token });
+            console.log(res);
+            
         }
         else {
             res.json({ success: false, message: "Invalid password" });

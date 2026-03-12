@@ -1,19 +1,12 @@
 import { useContext, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
 import { assets } from '../assets/assets';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
-
-// import { useTheme } from '../context/ThemeContext';
-
-
 
 const Navbar = () => {
   const navigate = useNavigate();
 
   const {token, setToken,userData} = useContext(AppContext)
-
-  // const { darkMode, toggleTheme } = useTheme();
-
 
 
   const [showMenu, setShowMenu] = useState(false)
@@ -53,12 +46,6 @@ const Navbar = () => {
           <hr className='border-none outline-none h-0.5 bg-[#28a745] w-3/5 m-auto hidden group-[.active]:block' />
         </NavLink>
       </ul>
-      {/* <button
-      onClick={toggleTheme}
-      className="p-2 rounded text-sm border dark:border-white border-gray-700"
-    >
-      {darkMode ? '🌙 Dark' : '☀️ Light'}
-    </button> */}
 
       <div className='flex items-center gap-4'>
         {

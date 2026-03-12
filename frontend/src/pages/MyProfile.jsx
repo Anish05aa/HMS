@@ -1,9 +1,9 @@
-import axios from 'axios'
 import React, { useContext, useState } from 'react'
-import { HashLoader } from 'react-spinners'
-import { toast } from 'react-toastify'
 import { assets } from '../assets/assets'
 import { AppContext } from '../context/AppContext'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import { HashLoader } from 'react-spinners';
 
 const MyProfile = () => {
 
@@ -25,9 +25,9 @@ const MyProfile = () => {
       formData.append('gender', userData.gender)
       formData.append('dob', userData.dob)
 
-      image && formData.append('image', image)
+      image && formData.append('imageFile', image)
 
-      const { data } = await axios.post(backendUrl + '/api/user/update-profile', formData, { headers: {  Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data'} })
+      const { data } = await axios.post(backendUrl + '/api/user/update-profile', formData, { headers: { token } })
 
 
       if (data.success) {

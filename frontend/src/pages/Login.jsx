@@ -1,8 +1,8 @@
-import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import { AppContext } from '../context/AppContext'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 
 const Login = () => {
 
@@ -18,7 +18,6 @@ const Login = () => {
   const onSubmitHandler = async (event) => {
     event.preventDefault()
 
-    // Validating input fields
     try {
 
       if (state === 'Sign Up') {
@@ -31,10 +30,11 @@ const Login = () => {
           toast.error(data.message)
         }
 
-
       } else {
-        // Login
+
         const { data } = await axios.post(backendUrl + '/api/user/login', { password, email })
+        console.log("login response",data);
+        
         if (data.success) {
           localStorage.setItem('token', data.token)
           setToken(data.token)
@@ -49,14 +49,12 @@ const Login = () => {
 
   }
 
-  // Redirecting to home page if user is already logged in
   useEffect(()=>{
     if(token){
       navigate('/')
     }
   },[token])
 
-  
   return (
     <form onSubmit={onSubmitHandler} className='min-h-[-80vh] flex items-center'>
       <div className='flex flex-col gap-3 m-auto items-start p-8 min-w-[340px] sm:min-w-96 border-none rounded-xl text-zinc-600 text-sm shadow-lg'>

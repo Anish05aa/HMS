@@ -25,7 +25,3 @@ html {
     @apply text-white bg-[#43B17E]
    } 
 }
-
-#bp-web-widget, .bp-widget-side {
-    display: none !important;
-  }

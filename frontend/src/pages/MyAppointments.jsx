@@ -1,8 +1,8 @@
-import axios from 'axios'
 import React, { useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
 import { AppContext } from '../context/AppContext'
+import axios from 'axios'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
 // import { assets } from '../../../admin/src/assets'
 import razorpay_logo from '../assets/razorpay_logo.png'
 
@@ -25,9 +25,7 @@ const MyAppointments = () => {
   const getUserAppointments = async () => {
     try {
 
-      const { data } = await axios.get(backendUrl + '/api/user/appointments', {headers: {
-        Authorization: `Bearer ${token}`
-      }})
+      const { data } = await axios.get(backendUrl + '/api/user/appointments', { headers: { token } })
 
       if (data.success) {
         setAppointments(data.appointments.reverse()) //reverse was used to show the latest appointments which was previously at last
@@ -42,9 +40,7 @@ const MyAppointments = () => {
   const cancelAppointment = async (appointmentId) => {
     try {
 
-      const { data } = await axios.post(backendUrl + '/api/user/cancel-appointment', { appointmentId }, { headers: {
-        Authorization: `Bearer ${token}` }})
-
+      const { data } = await axios.post(backendUrl + '/api/user/cancel-appointment', { appointmentId }, { headers: { token } })
       if (data.success) {
         toast.success(data.message)
         getUserAppointments()
@@ -72,8 +68,7 @@ const MyAppointments = () => {
         console.log(response)
 
         try {
-          const { data } = await axios.post(backendUrl + '/api/user/verify-razorpay', response, { headers: {
-            Authorization: `Bearer ${token}` }})
+          const { data } = await axios.post(backendUrl + '/api/user/verify-razorpay', response, { headers: { token } })
           if (data.success) {
             getUserAppointments()
             navigate('/my-appointments')
@@ -94,8 +89,7 @@ const MyAppointments = () => {
 
     try {
 
-      const { data } = await axios.post(backendUrl + '/api/user/payment-razorpay', { appointmentId }, { headers: {
-        Authorization: `Bearer ${token}` }})
+      const { data } = await axios.post(backendUrl + '/api/user/payment-razorpay', { appointmentId }, { headers: { token } })
 
       if (data.success) {
         initPay(data.order)

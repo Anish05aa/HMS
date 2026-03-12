@@ -1,33 +1,18 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
-import Footer from './components/Footer'
-import Navbar from './components/Navbar'
-import './index.css'
-import About from './pages/About'
-import Appointment from './pages/Appointment'
-import Contact from './pages/Contact'
-import Doctors from './pages/Doctors'
 import Home from './pages/Home'
+import Doctors from './pages/Doctors'
 import Login from './pages/Login'
-import MyAppointments from './pages/MyAppointments'
+import About from './pages/About'
+import Contact from './pages/Contact'
 import MyProfile from './pages/MyProfile'
+import MyAppointments from './pages/MyAppointments'
+import Appointment from './pages/Appointment'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
+import { ToastContainer, toast } from 'react-toastify';
 
 const App = () => {
-
-
-  // Initialize theme on app load
-  useEffect(() => {
-    if (localStorage.theme === 'dark' ||
-      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, []);
-
-
-
   return (
     <div className='mx-4 sm:mx-[10%]'>
       <ToastContainer />

@@ -1,10 +1,11 @@
-import axios from 'axios';
-import React, { useContext, useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import React, { useContext, useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { AppContext } from '../context/AppContext'
+import { ClipLoader } from 'react-spinners';
 import { assets } from '../assets/assets';
 import RelatedDoctors from '../components/RelatedDoctors';
-import { AppContext } from '../context/AppContext';
+import { toast } from 'react-toastify';
+import axios from 'axios';
 
 const Appointment = () => {
 
@@ -62,11 +63,8 @@ const Appointment = () => {
         const slotDate = day + "_" + month + "_" + year
         const slotTime = formattedTime
 
-        // const isSlotAvailable = docInfo.slots_booked[slotDate] && docInfo.slots_booked[slotDate].includes(slotTime) ? false : true
-        const isSlotAvailable = !docInfo?.slots_booked?.[slotDate]?.includes(slotTime);
-        //checking if slot is available or not
+        const isSlotAvailable = docInfo.slots_booked[slotDate] && docInfo.slots_booked[slotDate].includes(slotTime) ? false : true
 
-        //if slot is available then add to array
         if (isSlotAvailable) {
           //add slot to array
           timeSlots.push({
@@ -89,10 +87,6 @@ const Appointment = () => {
       toast.warn('Login to book appointment')
       return navigate('/login')
     }
-    if (!docInfo.available) {
-      toast.error("Doctor is currently unavailable");
-      return;
-    }
 
     try {
       const date = docSlots[slotIndex][0].datetime
@@ -102,13 +96,9 @@ const Appointment = () => {
       let year = date.getFullYear()
 
       const slotDate = day + "_" + month + "_" + year
-      console.log(slotDate)
+      // console.log(slotDate)
 
-      const { data } = await axios.post(backendUrl + '/api/user/book-appointment', { docId, slotDate, slotTime }, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      })
+      const { data } = await axios.post(backendUrl + '/api/user/book-appointment', { docId, slotDate, slotTime }, { headers: { token } })
 
       if (data.success) {
         toast.success(data.message)
@@ -125,16 +115,9 @@ const Appointment = () => {
 
 
 
-  // useEffect(() => {
-  //   getAvailableSlots()
-  // }, [docInfo])
-
   useEffect(() => {
-    if (docInfo) {
-      getAvailableSlots();
-    }
-  }, [docInfo]);
-
+    getAvailableSlots()
+  }, [docInfo])
 
   useEffect(() => {
     fetchDocInfo()
@@ -144,22 +127,14 @@ const Appointment = () => {
     console.log(docSlots)
   }, [docSlots])
 
-
-  // // spinner
-  // if (!docInfo) {
-  //   return (
-  //     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-  //       <ClipLoader color="#8eedbe" size={50} />
-  //     </div>
-  //   );
-  // }
-
-  // // check availability after docInfo is loaded
-  // if (!docInfo.available) {
-  //   toast.error("Doctor is currently unavailable. Please try later.");
-  //   return null;
-  // }
-
+  {/* Using the spinner here befor the data is loading */ }
+  if (!docInfo) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <ClipLoader color="#8eedbe" size={50} />
+      </div>
+    );
+  }
 
 
 
@@ -216,13 +191,6 @@ const Appointment = () => {
             ))
           }
         </div>
-
-        {/* <button
-          onClick={bookAppointment}
-          className={`bg-[#43B17E] text-white text-sm font-light px-14 py-3 rounded-full my-6 ${!docInfo.available ? 'opacity-50 cursor-not-allowed' : ''}`}
-        >
-          Book an Appointment
-        </button> */}
 
         <button onClick={bookAppointment} className='bg-[#43B17E] text-white text-sm font-light px-14 py-3 rounded-full my-6'>Book an Appintment</button>
       </div>

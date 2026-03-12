@@ -1,8 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 // import {doctors} from '../assets/assets'
-import axios from 'axios';
+import axios from 'axios'
 import { toast } from "react-toastify";
-
 
 export const AppContext = createContext()
 
@@ -16,9 +15,7 @@ const AppContextProvider = (props) => {
 
     const getDoctorsData = async () => {
         try {
-            const { data } = await axios.get(backendUrl + '/api/doctor/list', {headers: {
-                Authorization: `Bearer ${token}`
-            }})
+            const { data } = await axios.get(backendUrl + '/api/doctor/list')
             if (data.success) {
                 setDoctors(data.doctors)
             } else {
@@ -33,12 +30,7 @@ const AppContextProvider = (props) => {
     const loadUserProfileData = async () => {
         try {
 
-            // const { data } = await axios.get(backendUrl + '/api/user/get-profile', { headers: { token } })
-            const { data } = await axios.get(backendUrl + '/api/user/get-profile', {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
+            const { data } = await axios.get(backendUrl + '/api/user/get-profile', { headers: { token } })
 
             if (data.success) {
                 setUserData(data.userData)
@@ -47,7 +39,14 @@ const AppContextProvider = (props) => {
             }
         } catch (error) {
             console.log(error)
-            toast.error(error.message)
+
+            if (error.response && error.response.status === 401) {
+                localStorage.removeItem("token")
+                setToken(false)
+                setUserData(false)
+            } else {
+                toast.error(error.message)
+            }
         }
     }
 
@@ -67,6 +66,14 @@ const AppContextProvider = (props) => {
     useEffect(() => {
         getDoctorsData()
     }, [])
+
+    useEffect(() => {
+        if (token) {
+            axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        } else {
+            delete axios.defaults.headers.common["Authorization"];
+        }
+    }, [token]);
 
     useEffect(() => {
         if (token) {
