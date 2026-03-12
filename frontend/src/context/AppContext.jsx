@@ -7,20 +7,22 @@ export const AppContext = createContext()
 
 const AppContextProvider = (props) => {
     const currencySymbol = '₹'
-    const backendUrl = 'https://hms-backend-fy33.onrender.com'
+    const backendUrl = import.meta.env.VITE_BACKEND_URL
 
     const [doctors, setDoctors] = useState([])
-    const [token, setToken] = useState(localStorage.getItem('token') ? localStorage.getItem('token') : false)
+    const [token, setToken] = useState(localStorage.getItem("token") || null)
     const [userData, setUserData] = useState(false)
 
     const getDoctorsData = async () => {
         try {
             const { data } = await axios.get(backendUrl + '/api/doctor/list')
+
             if (data.success) {
                 setDoctors(data.doctors)
             } else {
-                toast.error(error.message)
+                toast.error(data.message)
             }
+
         } catch (error) {
             console.log(error)
             toast.error(error.message)
@@ -30,10 +32,19 @@ const AppContextProvider = (props) => {
     const loadUserProfileData = async () => {
         try {
 
-            const { data } = await axios.get(backendUrl + '/api/user/get-profile', { headers: { token } })
-
+            const { data } = await axios.get(
+                backendUrl + '/api/user/get-profile',
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
             if (data.success) {
-                setUserData(data.userData)
+                setUserData({
+                    ...data.userData,
+                    address: data.userData.address || { line1: "", line2: "" }
+                })
             } else {
                 toast.error(data.message)
             }

@@ -80,7 +80,7 @@ const loginUser = async (req, res) => {
             const token = jwt.sign({ id: user._id, email: user.email }, process.env.JWT_SECRET);
             res.json({ success: true, message: "User logged in successfully", user, token });
             console.log(res);
-            
+
         }
         else {
             res.json({ success: false, message: "Invalid password" });
@@ -100,15 +100,41 @@ const loginUser = async (req, res) => {
 // api to get user profile data
 const getUserProfile = async (req, res) => {
     try {
-        const userId = req.user.id; // Use decoded token from middleware
-        const userData = await userModel.findById(userId).select("-password");
 
-        res.json({ success: true, userData });
+        if (!req.user || !req.user.id) {
+            return res.status(401).json({
+                success: false,
+                message: "Unauthorized"
+            })
+        }
+
+        const userId = req.user.id
+
+        const userData = await userModel
+            .findById(userId)
+            .select("-password")
+
+        if (!userData) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            })
+        }
+
+        res.json({
+            success: true,
+            userData
+        })
+
     } catch (error) {
-        console.error(error);
-        res.status(500).json({ success: false, message: "Server error", error: error.message });
+        console.error("getUserProfile error:", error)
+
+        res.status(500).json({
+            success: false,
+            message: error.message
+        })
     }
-};
+}
 
 
 // api to update user profile data
@@ -344,16 +370,16 @@ const paymentRazorpay = async (req, res) => {
 const verifyRazorpay = async (req, res) => {
 
     try {
-        
-        const {razorpay_order_id} = req.body;
-        const  orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id);
+
+        const { razorpay_order_id } = req.body;
+        const orderInfo = await razorpayInstance.orders.fetch(razorpay_order_id);
         console.log(orderInfo);
 
-        if (orderInfo.status=='paid') {
+        if (orderInfo.status == 'paid') {
             await appointmentModel.findByIdAndUpdate(orderInfo.receipt, { payment: true });
             res.json({ success: true, message: "Payment successfully" });
         }
-        else{
+        else {
             res.json({ success: false, message: "Payment failed" });
         }
 

@@ -27,7 +27,8 @@ const MyProfile = () => {
 
       image && formData.append('imageFile', image)
 
-const { data } = await axios.post(
+
+      const { data } = await axios.post(
         backendUrl + '/api/user/update-profile',
         formData,
         {
@@ -107,9 +108,9 @@ const { data } = await axios.post(
                 <input className='bg-gray-50' onChange={(e) => setUserData(prev => ({ ...prev, address: { ...prev.address, line2: e.target.value } }))} value={userData.address.line2} type="text" />
               </p>
               : <p className='text-gray-500'>
-                {userData.address.line1}
+                {userData.address?.line1 || ""}
                 <br />
-                {userData.address.line2}
+                {userData.address?.line2 || ""}
               </p>
           }
         </div>
@@ -137,7 +138,7 @@ const { data } = await axios.post(
       <div className='mt-10'>
         {
           isEdit
-            ? <button className='border border-[#43B17E] px-8 py-2 rounded-full hover:bg-[#43B17E] hover:text-white transition-all' onClick={() =>{ updateUserProfileData() ,setLoading(true)}}>Save Information</button>
+            ? <button className='border border-[#43B17E] px-8 py-2 rounded-full hover:bg-[#43B17E] hover:text-white transition-all' onClick={() => { updateUserProfileData(), setLoading(true) }}>Save Information</button>
             : <button className='border border-[#43B17E] px-8 py-2 rounded-full hover:bg-[#43B17E] hover:text-white transition-all' onClick={() => setIsEdit(true)}>Edit</button>
         }
       </div>
