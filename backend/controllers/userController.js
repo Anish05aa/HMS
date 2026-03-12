@@ -88,9 +88,13 @@ const loginUser = async (req, res) => {
 
 
     } catch (error) {
-        console.error(error);
-        res.json({ success: false, message: "error", error: err.message });
-    }
+    console.error(error);
+    res.status(500).json({
+        success: false,
+        message: "Server error",
+        error: error.message
+    });
+}
 }
 
 // api to get user profile data
