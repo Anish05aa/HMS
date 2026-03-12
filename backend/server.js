@@ -23,7 +23,7 @@ const corsOptions = {
 
 
 app.use(cors({
-  origin: ["http://localhost:5173" , "http://localhost:5000"],
+  origin: ["http://localhost:5173" , "http://localhost:5000" ,"https://hms-frontend-yaju.onrender.com"],
   credentials: true,
   allowedHeaders: ["Content-Type", "Authorization", "token"]
 }))

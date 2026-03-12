@@ -24,3 +24,5 @@ desktop.ini
 # Optional: Ignore build folder (if you ever build backend)
 dist/
 build/
+
+.env
