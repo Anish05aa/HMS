@@ -88,7 +88,7 @@ const loginUser = async (req, res) => {
 
 
     } catch (error) {
-        console.error(err);
+        console.error(error);
         res.json({ success: false, message: "error", error: err.message });
     }
 }
